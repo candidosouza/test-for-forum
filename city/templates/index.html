@@ -1,0 +1,59 @@
+{% load static %}
+{% load city_filters %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Market Place{% endblock %}</title>
+
+    <!--css's-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="container">
+
+
+
+    <br>
+    <br>
+    <br>
+
+
+    <div class="col-md-6">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+
+                    <span class="text-danger">{{ form.nome.errors }}</span>
+
+                    <div class="form-group">
+                        <label for="">{{ form.nome.label }}</label>
+                        {{ form.nome }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <span class="text-danger">{{ form.price.errors }}</span>
+                    <select class="form-control" name="subsetor">
+                        {% for s in setor %}
+                        <optgroup label="{{ s }}">
+                            {% get_sub_setor s as subsetor %}
+                            {% for sub in subsetor %}
+                                <option value="{{ sub }}">{{ sub }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-info">Editar</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
