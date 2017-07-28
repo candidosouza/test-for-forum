@@ -36,24 +36,57 @@
                 </div>
 
                 <div class="col-md-6">
-                    <span class="text-danger">{{ form.price.errors }}</span>
-                    <select class="form-control" name="subsetor">
+
+                    <span class="text-danger">{{ form.quantity.errors }}</span>
+
+                    <select class="form-control" id="idSetor" name="setor">
+                        <option value="{{ s }}">---------</option>
                         {% for s in setor %}
-                        <optgroup label="{{ s }}">
-                            {% get_sub_setor s as subsetor %}
-                            {% for sub in subsetor %}
-                                <option value="{{ sub }}">{{ sub }}</option>
-                            {% endfor %}
-                        </optgroup>
+                            <option value="{{ s.id }}">{{ s }}</option>
                         {% endfor %}
                     </select>
+
+
                 </div>
 
+                <div class="col-md-6">
+                    <select class="form-control" name="subsetor">
+                        <option value=""></option>
+                    </select>
+                </div>
             </div>
 
-            <button type="submit" class="btn btn-info">Editar</button>
+            <br>
+
+            <button type="submit" class="btn btn-info">Salvar</button>
         </form>
     </div>
 </div>
+
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js></script>
+<script type='text/javascript'>
+    $(function(){
+        var subsetor = $('select[name=subsetor]');
+        subsetor.empty();
+        subsetor.prepend('<option value="Not selected" selected disabled>Select setor...</option>');
+        $('select[name=setor]').change(function(){
+            if($("#idSetor option:selected").text() != ("YOU SHOULD INSERT THE INITIAL VALUE OF THE setor FIELD WHEN IT IS NOT SELECTED")) {
+                var setor_id = $('select[name=setor]').val();
+
+                request_url = '/get-sub-setor/' + setor_id + '/';
+                $.ajax({
+                    url: request_url,
+                    type: "GET",
+                    success: function(data){
+                        subsetor.empty();
+                        $.each(data, function(key, value){
+                            subsetor.append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    }
+                })
+            }
+        })
+    });
+</script>
 </body>
 </html>
